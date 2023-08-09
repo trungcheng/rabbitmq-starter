@@ -23,7 +23,7 @@ amqp.connect('amqp://localhost', function(error0, connection) {
         channel.consume(queue, function(msg) {
             console.log(" [x] Received %s", msg.content.toString());
         }, {
-            noAck: true // true - message will lost when quit, false - message is never lost although quit
+            noAck: true // Confirm that processed and announce to producer (remove message from queue)
         });
     });
 });

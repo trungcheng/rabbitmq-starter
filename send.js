@@ -16,10 +16,13 @@ amqp.connect('amqp://localhost', function(error0, connection) {
         var msg = 'Hello World!';
 
         channel.assertQueue(queue, {
-            durable: false // true - keep queue won't be lost even if RabbitMQ restarts
+            // if true, both producer and consumer need to be true
+            durable: false // true - keep queue won't be lost even if RabbitMQ restart
         });
         
-        channel.sendToQueue(queue, Buffer.from(msg));
+        channel.sendToQueue(queue, Buffer.from(msg), {
+            expiration: '10000', // 10s, after that time, the message will be deleted
+        });
 
         console.log("[x] Sent %s", msg);
     });
